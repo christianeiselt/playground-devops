@@ -10,7 +10,7 @@ if [[ ! $local_branch =~ $valid_branch_regex ]]
 then
     echo "$message"
     exit 1
-elif
+else
     echo "$local_branch"
 fi
 
