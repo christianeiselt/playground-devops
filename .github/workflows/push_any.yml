@@ -1,5 +1,5 @@
 ---
-name: PR main branch
+name: Push
 
 on:
   push:
