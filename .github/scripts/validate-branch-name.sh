@@ -1,6 +1,6 @@
 #!/bin/sh
 
-local_branch=$BRANCH_NAME
+local_branch=$GITHUB_REF_NAME
 
 valid_branch_regex="^(feature|bugfix|fix|hotfix|release)\/[a-z0-9._-]+$"
 
