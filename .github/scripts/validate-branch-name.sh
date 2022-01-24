@@ -7,7 +7,7 @@ valid_branch_regex="^(bugfix|feature|hotfix|maintenance|release)\/[A-Z]+-[0-9]+_
 
 message="Branch name '$local_branch' doesn't adhere to this contract: $valid_branch_regex."
 
-if [ ! $local_branch =~ $valid_branch_regex ]
+if [ $local_branch !~ $valid_branch_regex ]
 then
     echo "$message"
     exit 1
