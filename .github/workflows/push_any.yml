@@ -8,17 +8,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repo
-        uses: actions/checkout@v2
-      
-      - name: Print env
-        run: |
-          echo "Print all environment variables"
-          env
-      
-      - name: Validate branch name
-        run: ./.github/scripts/validate-branch-name.sh
-
       - name: Say Maintenance-issue if
         if: startsWith(github.ref_name, 'maintenance')
         run: |
@@ -30,4 +19,15 @@ jobs:
         run: |
           echo github.ref_name
           echo "not maintenance, deploy"
+
+      - name: Check out repo
+        uses: actions/checkout@v2
+      
+      - name: Print env
+        run: |
+          echo "Print all environment variables"
+          env
+      
+      - name: Validate branch name
+        run: ./.github/scripts/validate-branch-name.sh
         
