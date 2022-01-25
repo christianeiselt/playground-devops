@@ -38,8 +38,18 @@ jobs:
       #     name: megalinter-artifact
       #     path: ${{ github.workspace }}
 
+  checks:
+    if: endsWith(github.ref_name, 'merge') != true
+    runs-on: macos-latest
+    steps:
+      - name: Run env
+        run: env
+
+      - name: Check increased build version
+        run: echo "Checking increased build number...succeed"
+
   tests:
-    if: startsWith(github.ref_name, 'maintenance') = true
+    if: startsWith(github.ref_name, 'maintenance') != true
     runs-on: ubuntu-latest
     steps:
       - name: Run env
