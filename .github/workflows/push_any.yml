@@ -1,0 +1,74 @@
+---
+name: Push
+
+on:
+  push:
+
+jobs:
+  TruffleHog:
+    name: Scan repository for security issues
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Trufflehog Actions Scan
+        run: echo "Running security scan on repository...success"
+        # uses: edplato/trufflehog-actions-scan@v0.9k-beta
+        # with:
+        #   scanArguments: "--regex --entropy=False" #--max_depth=5 --rules /regexes.json" # Add custom options here*
+
+  megalinter:
+    name: Lint Code Base (MegaLinter)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Lint Code Base
+        run: echo "Linting Code base...success"
+      #   uses: megalinter/megalinter/flavors/swift@v5.3.0
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # - name: Upload reports as artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: megalinter-artifact
+      #     path: ${{ github.workspace }}
+
+  tests:
+    if: startsWith(github.ref_name, 'maintenance') != true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run unit tests
+        run: echo "Running unit tests...succeed"
+
+  build:
+    if: startsWith(github.ref_name, 'maintenance') != true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Say Maintenance-issue if
+        if: startsWith(github.ref_name, 'maintenance')
+        run: |
+          echo github.ref_name
+          echo "only maintenance, do not deploy"
+      
+      - name: Say Deploy
+        if: startsWith(github.ref_name, 'maintenance') != true
+        run: |
+          echo github.ref_name
+          echo "not maintenance, deploy"
+
+      - name: Check out repo
+        uses: actions/checkout@v2
+      
+      - name: Print env
+        run: |
+          echo "Print all environment variables"
+          env
+      
+      - name: Validate branch name
+        run: ./.github/scripts/validate-branch-name.sh
+        
