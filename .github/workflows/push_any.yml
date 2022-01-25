@@ -39,7 +39,7 @@ jobs:
       #     path: ${{ github.workspace }}
 
   tests:
-    if: startsWith(github.ref_name, 'maintenance') != true
+    if: startsWith(github.ref_name, 'maintenance') = true
     runs-on: ubuntu-latest
     steps:
       - name: Run env
