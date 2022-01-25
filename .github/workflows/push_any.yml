@@ -39,7 +39,7 @@ jobs:
       #     path: ${{ github.workspace }}
 
   checks:
-    if: endsWith(github.ref_name, 'merge') != true
+    if: github.ref_name != 'main'
     runs-on: macos-latest
     steps:
       - name: Run env
