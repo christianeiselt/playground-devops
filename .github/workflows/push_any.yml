@@ -6,7 +6,7 @@ on:
 
 jobs:
   TruffleHog:
-    name: Scan repository for security issues
+    name: Scan repository for security issues (TruffleHog)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -38,10 +38,23 @@ jobs:
       #     name: megalinter-artifact
       #     path: ${{ github.workspace }}
 
+  checks:
+    if: endsWith(github.ref_name, 'merge') != true
+    runs-on: macos-latest
+    steps:
+      - name: Run env
+        run: env
+
+      - name: Check increased build version
+        run: echo "Checking increased build number...succeed"
+
   tests:
     if: startsWith(github.ref_name, 'maintenance') != true
     runs-on: ubuntu-latest
     steps:
+      - name: Run env
+        run: env
+
       - name: Run unit tests
         run: echo "Running unit tests...succeed"
 
@@ -49,26 +62,32 @@ jobs:
     if: startsWith(github.ref_name, 'maintenance') != true
     runs-on: ubuntu-latest
     steps:
-      - name: Say Maintenance-issue if
-        if: startsWith(github.ref_name, 'maintenance')
-        run: |
-          echo github.ref_name
-          echo "only maintenance, do not deploy"
-      
-      - name: Say Deploy
-        if: startsWith(github.ref_name, 'maintenance') != true
-        run: |
-          echo github.ref_name
-          echo "not maintenance, deploy"
+      - name: Run env
+        run: env
+        
+      - name: Build application
+        run: echo "Building application...succeed"
 
-      - name: Check out repo
-        uses: actions/checkout@v2
+      # - name: Say Maintenance-issue if
+      #   if: startsWith(github.ref_name, 'maintenance')
+      #   run: |
+      #     echo github.ref_name
+      #     echo "only maintenance, do not deploy"
       
-      - name: Print env
-        run: |
-          echo "Print all environment variables"
-          env
+      # - name: Say Deploy
+      #   if: startsWith(github.ref_name, 'maintenance') != true
+      #   run: |
+      #     echo github.ref_name
+      #     echo "not maintenance, deploy"
+
+      # - name: Check out repo
+      #   uses: actions/checkout@v2
       
-      - name: Validate branch name
-        run: ./.github/scripts/validate-branch-name.sh
+      # - name: Print env
+      #   run: |
+      #     echo "Print all environment variables"
+      #     env
+      
+      # - name: Validate branch name
+      #   run: ./.github/scripts/validate-branch-name.sh
         
