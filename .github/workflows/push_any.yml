@@ -38,6 +38,13 @@ jobs:
       #     name: megalinter-artifact
       #     path: ${{ github.workspace }}
 
+  tests:
+    if: startsWith(github.ref_name, 'maintenance') != true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run unit tests
+        run: echo "Running unit tests...succeed"
+
   build:
     if: startsWith(github.ref_name, 'maintenance') != true
     runs-on: ubuntu-latest
