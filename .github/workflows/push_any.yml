@@ -20,12 +20,14 @@ jobs:
         run: ./.github/scripts/validate-branch-name.sh
 
       - name: Say Maintenance-issue if
-        if: startsWith(github.ref.name, 'maintenance')
+        if: startsWith($GITHUB_REF_NAME, 'maintenance')
         run: |
+          echo $GITHUB_REF_NAME
           echo "only maintenance, do not deploy"
       
       - name: Say Deploy
-        if: startsWith(github.ref.name, 'maintenance') != true
+        if: startsWith($GITHUB_REF_NAME, 'maintenance') != true
         run: |
+          echo $GITHUB_REF_NAME
           echo "not maintenance, deploy"
         
